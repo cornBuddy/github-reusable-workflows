@@ -4,8 +4,6 @@ name: Release helm chart to s3 bucket
 on:
   workflow_call:
     secrets:
-      github_token:
-        required: true
       aws_access_key_id:
         required: true
       aws_secret_access_key:

@@ -9,4 +9,4 @@ jobs:
   call_bump:
     uses: cornbuddy/github-reusable-workflows/.github/workflows/_bump-version.yml@develop
     secrets:
-      github_token: ${{ secrets.GITHUB_TOKEN }}
+      my_github_token: ${{ secrets.GITHUB_TOKEN }}

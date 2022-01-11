@@ -43,6 +43,6 @@ jobs:
         shell: bash
         run: |
           helm repo add repo "$REPO"
-          helm s3 push ".release/$(ls .release | head -n 1)" repo
+          helm s3 push --force ".release/$(ls .release | head -n 1)" repo
         env:
           REPO: ${{ secrets.helm_repo }}

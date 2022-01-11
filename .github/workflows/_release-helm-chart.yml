@@ -21,18 +21,28 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+      - name: Install helm
+        uses: azure/setup-helm@v1
+        with:
+          version: v3.7.2
+      - name: Install helm s3 plugin
+        shell: bash
+        run: |
+          helm plugin install https://github.com/hypnoglow/helm-s3.git --version 0.10.0
+      - name: Package helm chart
+        shell: bash
+        run: |
+          helm package ./ --dependency-update --destination .release/ --version $(git describe --tag)
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.aws_access_key_id }}
           aws-secret-access-key: ${{ secrets.aws_secret_access_key }}
           aws-region: ${{ secrets.aws_region }}
-      - name: Retrieve git tag
-        id: get_git_tag
-        run: echo ::set-output name=tag::$(git describe --tag)
-      - name: Helm release
-        uses: shellbear/helm-release-action@v0.1
-        with:
-          repo: ${{ secrets.helm_repo }}
-          chart: ./
-          version: ${{ steps.get_git_tag.outputs.tag }}
+      - name: Push helm chart
+        shell: bash
+        run: |
+          helm repo add repo "$REPO"
+          helm s3 push ".release/$(ls .release | head -n 1)" repo
+        env:
+          REPO: ${{ secrets.helm_repo }}

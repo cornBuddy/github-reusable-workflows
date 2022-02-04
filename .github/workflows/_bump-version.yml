@@ -18,7 +18,7 @@ on:
         required: false
       default_prerelease_bump:
         type: string
-        default: prepatch
+        default: prerelease
         required: false
     secrets:
       my_github_token:

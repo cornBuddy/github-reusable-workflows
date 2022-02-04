@@ -28,6 +28,7 @@ jobs:
         with:
           fetch-depth: 0
       - uses: wagoid/commitlint-github-action@v4
+        if: github.ref_name == "${{ inputs.release_branches }}"
       - name: Bump version and push tag
         uses: mathieudutour/github-tag-action@v5.6
         with:

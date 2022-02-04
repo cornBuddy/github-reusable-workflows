@@ -33,7 +33,7 @@ jobs:
           fetch-depth: 0
       - uses: wagoid/commitlint-github-action@v4
       - name: Bump version and push tag
-        uses: mathieudutour/github-tag-action@v6
+        uses: mathieudutour/github-tag-action@v6.0
         with:
           github_token: ${{ secrets.my_github_token }}
           release_branches: ${{ inputs.release_branches }}
